@@ -25,7 +25,7 @@ def index():
     return render_template('index.html', stories=stories)
 
 
-@app.route('/uploads', methods=['POST'])
+@app.route('/stories', methods=['POST'])
 def upload_story():
     """
     Handle the story upload from the form submission.
@@ -48,8 +48,8 @@ def upload_story():
     return render_template('upload_success.html', filename=random_filename)
 
 
-@app.route('/uploads/view')
-def view_upload():
+@app.route('/stories/view')
+def view_story():
     filename = request.args.get('filename')
     if not filename:
         return "Please provide a 'filename' parameter.", 400
@@ -61,7 +61,7 @@ def view_upload():
     try:
         with open(story_path, 'r') as f:
             story_content = f.read()
-    except Exception as e:
+    except:
         return f"Error reading {filename}", 500
 
     return story_content
@@ -84,7 +84,7 @@ def get_random_story():
     random.shuffle(stories)
     random_story = stories[0]
 
-    return redirect(f'/uploads/view?filename={random_story}')
+    return redirect(f'/stories/view?filename={random_story}')
 
 
 @app.route('/admin_dashboard', methods=['GET'])
