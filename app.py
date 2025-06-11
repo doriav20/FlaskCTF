@@ -10,6 +10,28 @@ from utils import get_random_filename, is_admin
 app = Flask(__name__)
 
 
+def render_base_page(title: str = "", content: str = "", status_code: int = 200):
+    """
+    Render a base page with a title, content, and status code.
+
+    Parameters
+    ----------
+    title : str
+        The title of the page.
+    content : str
+        The main content of the page.
+    status_code : int
+        The HTTP status code to return.
+
+    Returns
+    -------
+    tuple[str, int]
+        A tuple containing the rendered HTML and the status code.
+    """
+
+    return render_template('base_page.html', title=title, content=content, status_code=status_code), status_code
+
+
 @app.route('/')
 def index():
     """
@@ -37,7 +59,7 @@ def upload_story():
 
     story = request.form.get('story')
     if not story:
-        return "Please provide a 'story' parameter.", 400
+        return render_base_page("Error", "Please provide a 'story' parameter.", 400)
 
     random_filename = 'story_' + get_random_filename(16, 'txt')
 
@@ -52,19 +74,19 @@ def upload_story():
 def view_story():
     filename = request.args.get('filename')
     if not filename:
-        return "Please provide a 'filename' parameter.", 400
+        return render_base_page("Error", "Please provide a 'filename' parameter.", 400)
 
     story_path = os.path.join(UPLOADS_DIR, filename)
     if not os.path.isfile(story_path):
-        return f"{filename} not found.", 404
+        return render_base_page("Error", f"{filename} not found.", 404)
 
     try:
         with open(story_path, 'r', encoding='utf-8') as f:
             story_content = f.read()
     except:
-        return f"Error reading {filename}", 500
+        return render_base_page("Error", f"Error reading {filename}", 500)
 
-    return story_content
+    return render_base_page(filename, story_content)
 
 
 @app.route('/random_story', methods=['GET'])
@@ -96,13 +118,13 @@ def admin_dashboard():
 
     username = request.args.get('username')
     if not username:
-        return "Please provide a 'username' parameter.", 400
+        return render_base_page("Error", "Please provide a 'username' parameter.", 400)
 
     is_user_admin = is_admin(username)
     if not is_user_admin:
-        return "You are not an admin.", 403
+        return render_base_page("Error", "You are not an admin.", 403)
 
-    return "You won!"
+    return render_base_page("Admin Dashboard", f"Welcome to the admin dashboard, {username}!")
 
 
 if __name__ == '__main__':
