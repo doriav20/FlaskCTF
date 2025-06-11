@@ -42,7 +42,7 @@ def upload_story():
     random_filename = 'story_' + get_random_filename(16, 'txt')
 
     file_path = os.path.join(UPLOADS_DIR, random_filename)
-    with open(file_path, 'w') as story_file:
+    with open(file_path, 'w', encoding='utf-8') as story_file:
         story_file.write(story)
 
     return render_template('upload_success.html', filename=random_filename)
@@ -59,7 +59,7 @@ def view_story():
         return f"{filename} not found.", 404
 
     try:
-        with open(story_path, 'r') as f:
+        with open(story_path, 'r', encoding='utf-8') as f:
             story_content = f.read()
     except:
         return f"Error reading {filename}", 500
@@ -112,7 +112,7 @@ if __name__ == '__main__':
     os.makedirs(SECRET_DIR, exist_ok=True)
 
     debug_pin, _ = get_pin_and_cookie_name(app)
-    with open(PIN_FILE, 'w') as f:
+    with open(PIN_FILE, 'w', encoding='utf-8') as f:
         f.write(debug_pin)
 
     app.run(host='0.0.0.0', port=5000, debug=True)
