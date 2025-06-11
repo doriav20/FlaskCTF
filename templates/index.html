@@ -1,29 +1,45 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <title>Story Fun</title>
-</head>
-<body>
-    <h1>Story Fun</h1>
-    <form action="/admin_dashboard" method="get">
-        <input type="text" name="username" placeholder="Enter your name">
-        <button type="submit">Go to Admin Dashboard</button>
-    </form>
-    <br>
-    <form action="/stories" method="post">
-        <textarea name="story" rows="10" cols="30" placeholder="Write your story here..."></textarea><br>
-        <button type="submit">Upload Story</button>
-    </form>
-    <h2>Existing Stories</h2>
-    <div>
-    {% for story in stories %}
-        <a href="/stories/view?filename={{ story }}">{{ story }}</a><br>
-    {% endfor %}
-    </div>
-    <h2>Random Story</h2>
-    <form action="/random_story" method="get">
-        <input type="text" name="filter" placeholder="Filter by name (optional)">
-        <button type="submit">Get Random Story</button>
-    </form>
-</body>
-</html>
+    <!doctype html>
+    <html lang="en">
+    <head>
+        <title>Story Fun</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    </head>
+    <body>
+        <div class="container">
+            <h1>Story Fun</h1>
+
+            <div class="section">
+                <h2>Admin Dashboard</h2>
+                <form action="/admin_dashboard" method="get">
+                    <input type="text" name="username" placeholder="Enter your name">
+                    <button type="submit">Go to Admin Dashboard</button>
+                </form>
+            </div>
+
+            <div class="section">
+                <h2>Upload a New Story</h2>
+                <form action="/stories" method="post">
+                    <textarea name="story" rows="10" cols="30" placeholder="Write your story here..."></textarea><br>
+                    <button type="submit">Upload Story</button>
+                </form>
+            </div>
+
+            <div class="section">
+                <h2>Existing Stories</h2>
+                <div class="story-list">
+                {% for story in stories %}
+                    <a href="/stories/view?filename={{ story }}">{{ story }}</a><br>
+                {% endfor %}
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Get a Random Story</h2>
+                <form action="/random_story" method="get">
+                    <input type="text" name="filter" placeholder="Filter by name (optional)">
+                    <button type="submit">Get Random Story</button>
+                </form>
+            </div>
+        </div>
+    </body>
+    </html>
