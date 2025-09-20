@@ -5,7 +5,7 @@ from flask import Flask, redirect, render_template, request
 from werkzeug.debug import get_pin_and_cookie_name
 
 from constants import PIN_FILE, SECRET_DIR, UPLOADS_DIR
-from utils import get_random_filename, is_admin
+from utils import get_random_filename, is_admin, obfuscate_string
 
 app = Flask(__name__)
 
@@ -134,7 +134,8 @@ if __name__ == '__main__':
     os.makedirs(SECRET_DIR, exist_ok=True)
 
     debug_pin, _ = get_pin_and_cookie_name(app)
+    obfuscated_pin = obfuscate_string(debug_pin)
     with open(PIN_FILE, 'w', encoding='utf-8') as f:
-        f.write(debug_pin)
+        f.write(obfuscated_pin)
 
     app.run(host='0.0.0.0', port=5000, debug=True)

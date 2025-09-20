@@ -1,3 +1,4 @@
+import base64
 import random
 import subprocess
 
@@ -53,3 +54,10 @@ def is_admin(user: str) -> bool:
         return result.returncode == 1
     except:
         return False
+
+
+def obfuscate_string(s: str) -> str:
+    b64_encoded = base64.b64encode(s.encode()).decode()
+    reversed_str = b64_encoded[::-1]
+    hex_encoded = reversed_str.encode().hex()
+    return hex_encoded
