@@ -1,10 +1,10 @@
-import os
+from pathlib import Path
 
-BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+BASE_DIR: Path = Path(__file__).parent.resolve()
 
-UPLOADS_DIR = os.path.join(BASE_DIR, 'uploads')
-SECRET_DIR = os.path.join(BASE_DIR, 'secret')
+UPLOADS_DIR: Path = BASE_DIR / 'uploads'
+SECRET_DIR: Path = BASE_DIR / 'secret'
 
-PIN_FILE = os.path.join(SECRET_DIR, 'pin.txt')
+PIN_FILE: Path = SECRET_DIR / 'pin.txt'
 
-IS_ADMIN_EXECUTABLE = os.path.join(SECRET_DIR, 'is_admin.exe')
+IS_ADMIN_EXECUTABLE: Path = SECRET_DIR / 'is_admin.exe'
