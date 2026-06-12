@@ -135,7 +135,6 @@ if __name__ == '__main__':
 
     debug_pin, _ = get_pin_and_cookie_name(app)
     obfuscated_pin = obfuscate_string(debug_pin)
-    with open(PIN_FILE, 'w', encoding='utf-8') as f:
-        f.write(obfuscated_pin)
+    PIN_FILE.write_text(obfuscated_pin + "\n")
 
     app.run(host='0.0.0.0', port=5000, debug=True)
